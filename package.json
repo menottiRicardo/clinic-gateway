@@ -1,0 +1,17 @@
+{
+  "name": "clinic-services",
+  "version": "1.0.0",
+  "description": "Nestjs RabbitMQ Microservices",
+  "scripts": {
+    "deploy": "sh deploy.sh",
+    "start:prod": "docker compose -f docker-compose.yml up -d --build",
+    "stop:prod": "docker compose -f docker-compose.yml down",
+    "start:core": "docker compose -f docker-compose.core.yml up --build",
+    "stop:core": "docker compose -f docker-compose.core.yml down"
+  },
+  "keywords": [
+    "microservices",
+    "nestjs"
+  ],
+  "license": "MIT"
+}

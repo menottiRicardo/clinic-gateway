@@ -1,0 +1,21 @@
+[submodule "auth"]
+	path = auth
+	url = https://github.com/menottiRicardo/clinic-auth.git
+[submodule "post"]
+	path = post
+	url = https://github.com/menottiRicardo/clinic-post.git
+[submodule "mailer"]
+	path = mailer
+	url = https://github.com/menottiRicardo/clinic-mailer.git
+[submodule "notification"]
+	path = notification
+	url = https://github.com/menottiRicardo/clinic-notification.git
+[submodule "files"]
+	path = files
+	url = https://github.com/menottiRicardo/clinic-files.git
+[submodule "clinic-auth"]
+	path = clinic-auth
+	url = git@github.com:menottiRicardo/clinic-auth.git
+[submodule "clinic-appoinment"]
+	path = clinic-appoinment
+	url = git@github.com:menottiRicardo/clinic-appoinment.git
