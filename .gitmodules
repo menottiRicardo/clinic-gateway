@@ -1,6 +1,6 @@
 [submodule "auth"]
 	path = auth
 	url = git@github.com:menottiRicardo/clinic-auth.git
-[submodule "appt"]
-	path = appt
+[submodule "appointment"]
+	path = appointment
 	url = git@github.com:menottiRicardo/clinic-appoinment.git
