@@ -1,71 +1,10 @@
 version: '3'
 services:
-  auth:
-    build:
-      context: ./clinic-auth
-      dockerfile: Dockerfile.dev
-    restart: on-failure
-    ports:
-      - '9000:9000'
-    env_file:
-      - ./clinic-auth/.env
-    networks:
-      - backend
-    volumes:
-      - ./auth:/app/auth
-      - /app/auth/node_modules
-    logging:
-      driver: fluentd
-      options:
-        fluentd-async: 'true'
-        fluentd-address: localhost:24224
-        tag: auth-service
-  appt:
-    build:
-      context: ./clinic-appoinment
-      dockerfile: Dockerfile.dev
-    restart: unless-stopped
-    command: npm run start:dev
-    ports:
-      - '9001:9001'
-    env_file:
-      - ./clinic-appoinment/.env
-    networks:
-      - backend
-    volumes:
-      - ./appt:/app/appt
-      - /app/appt/node_modules
-    logging:
-      driver: fluentd
-      options:
-        fluentd-async: 'true'
-        fluentd-address: localhost:24224
-        tag: appt-service
-  kong:
-    build:
-      context: ./kong
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    ports:
-      - '8000:8000'
-      - '8001:8001'
-      - '8443:8443'
-    networks:
-      - backend
-    logging:
-      driver: fluentd
-      options:
-        fluentd-async: 'true'
-        fluentd-address: localhost:24224
-        tag: kong
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
       - '5672:5672'
       - '15672:15672'
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=master123
     volumes:
       - rabbit_data:/var/lib/rabbitmq
     networks:

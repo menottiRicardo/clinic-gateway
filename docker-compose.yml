@@ -1,6 +1,8 @@
 version: '3'
 services:
   auth:
+    container_name: auth
+    image: auth
     build:
       context: ./auth
       dockerfile: Dockerfile
@@ -16,13 +18,8 @@ services:
       - /app/auth/node_modules
     depends_on:
       - rabbitmq
-    logging:
-      driver: fluentd
-      options:
-        fluentd-async: 'true'
-        fluentd-address: localhost:24224
-        tag: auth-service
   appointment:
+    container_name: appointment
     build:
       context: ./appointment
       dockerfile: Dockerfile
@@ -38,31 +35,17 @@ services:
     volumes:
       - ./appointment:/app/appointment
       - /app/appointment/node_modules
-    logging:
-      driver: fluentd
-      options:
-        fluentd-async: 'true'
-        fluentd-address: localhost:24224
-        tag: appoinment-service
     depends_on:
       - rabbitmq
-  kong:
+  gateway:
     build:
-      context: ./kong
+      context: .
       dockerfile: Dockerfile
     restart: unless-stopped
     ports:
-      - '8000:8000'
-      - '8001:8001'
-      - '8443:8443'
+      - 8000:8000
     networks:
       - backend
-    logging:
-      driver: fluentd
-      options:
-        fluentd-async: 'true'
-        fluentd-address: localhost:24224
-        tag: kong
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
@@ -83,42 +66,6 @@ services:
       - redis_data:/data
     ports:
       - '6379:6379'
-    networks:
-      - backend
-  fluent-bit:
-    environment:
-      LOG_LEVEL: debug
-      LOKI_URL: http://loki:3100/loki/api/v1/push
-    build:
-      context: ./fluent-bit
-      dockerfile: Dockerfile
-    ports:
-      - '24224:24224'
-      - '24224:24224/udp'
-    networks:
-      - backend
-  loki:
-    image: grafana/loki:latest
-    expose:
-      - '3100'
-    networks:
-      - backend
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - '3000:3000'
-    environment:
-      GF_RENDERING_SERVER_URL: http://renderer:8081/render
-      GF_RENDERING_CALLBACK_URL: http://grafana:3000/
-      GF_LOG_FILTERS: rendering:debug
-    networks:
-      - backend
-  renderer:
-    image: grafana/grafana-image-renderer:latest
-    expose:
-      - '8081'
-    environment:
-      ENABLE_METRICS: 'true'
     networks:
       - backend
 networks:
