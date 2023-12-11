@@ -2,17 +2,17 @@ version: '3'
 services:
   auth:
     build:
-      context: ./clinic-auth
+      context: ./auth
       dockerfile: Dockerfile
     restart: on-failure
     ports:
       - 9000:9000
     env_file:
-      - ./clinic-auth/.env
+      - ./auth/.env
     networks:
       - backend
     volumes:
-      - ./clinic-auth:/app/auth
+      - ./auth:/app/auth
       - /app/auth/node_modules
     depends_on:
       - rabbitmq
@@ -22,26 +22,28 @@ services:
         fluentd-async: 'true'
         fluentd-address: localhost:24224
         tag: auth-service
-  appt:
+  appointment:
     build:
-      context: ./clinic-appoinment
+      context: ./appointment
       dockerfile: Dockerfile
+      target: development
     restart: on-failure
     ports:
-      - '9001:9001'
+      - 9001:9001
+    command: npm run start:dev
     env_file:
-      - ./clinic-appoinment/.env
+      - ./appointment/.env
     networks:
       - backend
     volumes:
-      - ./appt:/app/appt
-      - /app/appt/node_modules
+      - ./appointment:/app/appointment
+      - /app/appointment/node_modules
     logging:
       driver: fluentd
       options:
         fluentd-async: 'true'
         fluentd-address: localhost:24224
-        tag: appt-service
+        tag: appoinment-service
     depends_on:
       - rabbitmq
   kong:
