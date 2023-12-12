@@ -1,7 +1,5 @@
 // import all the required packages
-const cors = require('cors');
 const express = require('express');
-const helmet = require('helmet');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const config = require('./config');
 
@@ -23,20 +21,9 @@ const protect = (req, res, next) => {
   }
 };
 
-app.disable('x-powered-by');
-
-app.use(helmet());
-
-app.use(cors());
-
 Object.keys(config.proxies).forEach((path) => {
   const { protected, ...options } = config.proxies[path];
   const check = protected ? protect : alwaysAllow;
-  console.log(
-    `Proxy ${path} -> ${options.target} = ${
-      protected ? 'protected' : 'unprotected'
-    }`
-  );
   app.use(path, check, createProxyMiddleware(options));
 });
 
