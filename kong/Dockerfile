@@ -12,6 +12,4 @@ ENV KONG_DATABASE="off" \
 
 COPY ./conf/kong.yml /usr/local/kong/declarative/kong.yml
 
-USER kong
-
 CMD [ "kong", "start" ]
