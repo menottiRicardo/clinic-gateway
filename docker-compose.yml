@@ -6,7 +6,9 @@ services:
     build:
       context: ./auth
       dockerfile: Dockerfile
+      target: development
     restart: on-failure
+    command: npm run start:dev
     ports:
       - 9000:9000
     env_file:

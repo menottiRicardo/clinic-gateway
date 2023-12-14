@@ -8,7 +8,7 @@ exports.rate = {
 exports.proxies = {
   '/auth': {
     protected: false,
-    target: 'http://auth:9000',
+    target: 'http://localhost:9000',
     changeOrigin: true,
     pathRewrite: {
       [`^/auth`]: '',
@@ -16,7 +16,7 @@ exports.proxies = {
   },
   '/appointment': {
     protected: false,
-    target: 'http://appointment:9001',
+    target: 'http://localhost:9001',
     changeOrigin: true,
     pathRewrite: {
       [`^/appointment`]: '',
